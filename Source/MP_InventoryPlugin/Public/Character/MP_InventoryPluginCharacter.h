@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "Character/InventoryCharacter.h"
 #include "MP_InventoryPluginCharacter.generated.h"
 
 class UInputComponent;
@@ -19,7 +20,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
  *  A basic first person character
  */
 UCLASS(abstract)
-class AMP_InventoryPluginCharacter : public ACharacter
+class AMP_InventoryPluginCharacter : public AInventoryCharacter
 {
 	GENERATED_BODY()
 

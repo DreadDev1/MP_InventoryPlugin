@@ -14,7 +14,8 @@ public class MP_InventoryPlugin : ModuleRules
 			"Engine",
 			"InputCore",
 			"EnhancedInput",
-			"UMG"
+			"UMG", 
+			"InvPlugin"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

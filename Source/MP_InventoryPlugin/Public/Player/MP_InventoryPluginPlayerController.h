@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Player/InventoryPC.h"
 #include "MP_InventoryPluginPlayerController.generated.h"
 
 class UInputMappingContext;
@@ -14,7 +15,7 @@ class UInputMappingContext;
  *  Overrides the Player Camera Manager class.
  */
 UCLASS(abstract)
-class MP_INVENTORYPLUGIN_API AMP_InventoryPluginPlayerController : public APlayerController
+class MP_INVENTORYPLUGIN_API AMP_InventoryPluginPlayerController : public AInventoryPC
 {
 	GENERATED_BODY()
 	
