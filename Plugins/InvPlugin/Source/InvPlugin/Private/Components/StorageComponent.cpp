@@ -36,7 +36,7 @@ void UStorageComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 int UStorageComponent::GetFirstEmpty()
 {
-	for (FInventoryItem a : Items)
+	for (FInventoryItem& a : Items)
 	{
 		if (a.bIsEmpty)
 		{
@@ -158,5 +158,27 @@ bool UStorageComponent::RemoveItem(FInventoryItem Item)
 		return true;
 	}
 	return false;
+}
+
+bool UStorageComponent::HasItem(FName UniqueName, int StackSize)
+{
+	int PendingCount = StackSize;
+	for (FInventoryItem& a : Items)
+	{
+		if (a.UniqueName == UniqueName)
+		{
+			PendingCount -= a.StackSize;
+			if (PendingCount <= 0)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool UStorageComponent::BPHasItem(FName UniqueName, int StackSize)
+{
+	return HasItem(UniqueName, StackSize);
 }
 

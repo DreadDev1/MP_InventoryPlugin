@@ -46,14 +46,22 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	TArray<FInventoryItem> GetItems() { return Items; }
 
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void ServerAddBPItem(FInventoryItem Item);
 	bool AddItem(FInventoryItem Item);
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void ServerRemoveBPItem(FInventoryItem Item);
+	void ServerAddBPItem(FInventoryItem Item);
+
 	bool RemoveItem(FInventoryItem Item);
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void ServerRemoveBPItem(FInventoryItem Item);
+
+	bool HasItem(FName UniqueName, int StackSize);
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	bool BPHasItem(FName UniqueName, int StackSize);
 
 	int GetFirstEmpty();
 	int AddEmptyAtIndex(int Index);
+	
+	
+
 	void UpdateUI();
 };
