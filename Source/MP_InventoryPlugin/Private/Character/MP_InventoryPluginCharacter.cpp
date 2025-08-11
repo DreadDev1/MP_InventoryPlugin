@@ -8,6 +8,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
+#include "Components/StorageComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -47,6 +48,9 @@ AMP_InventoryPluginCharacter::AMP_InventoryPluginCharacter()
 	// Configure character movement
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
 	GetCharacterMovement()->AirControl = 0.5f;
+
+	StorageComp = CreateDefaultSubobject<UStorageComponent>(TEXT("StorageComp"));
+	StorageComp->Capacity = 20;
 }
 
 void AMP_InventoryPluginCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

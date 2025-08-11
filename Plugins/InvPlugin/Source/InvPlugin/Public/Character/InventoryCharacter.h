@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "InventoryCharacter.generated.h"
 
+class UStorageComponent;
+
 UCLASS()
 class INVPLUGIN_API AInventoryCharacter : public ACharacter
 {

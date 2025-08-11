@@ -52,7 +52,8 @@ protected:
 	
 public:
 	AMP_InventoryPluginCharacter();
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	UStorageComponent* StorageComp;
 protected:
 
 	/** Called from Input Actions for movement input */
