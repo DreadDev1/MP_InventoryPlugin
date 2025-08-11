@@ -18,6 +18,9 @@ class INVPLUGIN_API UStorageComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+protected:
+	virtual void BeginPlay() override;
+	
 public:	
 	UStorageComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -32,7 +35,7 @@ public:
 	TArray<FInventoryItem> Items;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
-	UDataTable* ItemTable;
+	UDataTable* DataTable;
 
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnStorageCompUpdated OnInventoryUpdated;
@@ -43,13 +46,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	TArray<FInventoryItem> GetItems() { return Items; }
 
-	
-	
-	
-protected:
-	virtual void BeginPlay() override;
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void ServerAddBPItem(FInventoryItem Item);
+	bool AddItem(FInventoryItem Item);
 
-
-
-		
+	int GetFirstEmpty();
+	void UpdateUI();
 };

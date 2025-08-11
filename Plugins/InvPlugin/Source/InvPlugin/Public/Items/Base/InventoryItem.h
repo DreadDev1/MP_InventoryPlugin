@@ -4,6 +4,8 @@
 
 #include "InventoryItem.generated.h"
 
+class UStorageComponent;
+
 USTRUCT(BlueprintType, Category = "Inventory")
 struct FInventoryItem 
 {
@@ -20,6 +22,8 @@ struct FInventoryItem
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	bool bIsEmpty = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	UStorageComponent* ItemOwner;
 
 	bool operator == (const FInventoryItem rhs) const { return UniqueName == rhs.UniqueName; }
 };
