@@ -54,6 +54,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void ServerRemoveBPItem(FInventoryItem Item);
 
+	bool RemoveItemStack(FName UniqueName, int StackSize);
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	bool ServerRemoveBPItemStack(FName UniqueName, int StackSize);
+	
 	bool HasItem(FName UniqueName, int StackSize);
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	bool BPHasItem(FName UniqueName, int StackSize);
