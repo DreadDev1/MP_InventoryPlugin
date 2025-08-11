@@ -28,13 +28,13 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
 	int Capacity;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory")
 	int SlotsFilled;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory")
 	TArray<FInventoryItem> Items;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	UDataTable* DataTable;
 
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
@@ -49,7 +49,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void ServerAddBPItem(FInventoryItem Item);
 	bool AddItem(FInventoryItem Item);
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void ServerRemoveBPItem(FInventoryItem Item);
+	bool RemoveItem(FInventoryItem Item);
 
 	int GetFirstEmpty();
+	int AddEmptyAtIndex(int Index);
 	void UpdateUI();
 };
