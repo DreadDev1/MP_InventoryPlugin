@@ -9,11 +9,7 @@
 // Sets default values for this component's properties
 UStorageComponent::UStorageComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -22,8 +18,15 @@ void UStorageComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	for (int i =0 ; i< Capacity; i++)
+	{
+		FInventoryItem Item = FInventoryItem();
+		Item.Index = i;
+		Item.StackSize = 0;
+		Item.ItemOwner = this;
+		Item.bIsEmpty = true;
+		Items.Add(Item);
+	}
 }
 
 
