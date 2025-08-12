@@ -4,6 +4,7 @@
 #include "Components/StorageComponent.h"
 #include "Engine/DataTable.h"
 #include "Items/Base/BaseItem.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
 UStorageComponent::UStorageComponent()
@@ -34,6 +35,15 @@ void UStorageComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	// ...
 }
 
+void UStorageComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(UStorageComponent, Items);
+	DOREPLIFETIME(UStorageComponent, Capacity);
+	DOREPLIFETIME(UStorageComponent, SlotsFilled);
+}
+
 int UStorageComponent::GetFirstEmpty()
 {
 	for (FInventoryItem& a : Items)
@@ -59,11 +69,17 @@ int UStorageComponent::AddEmptyAtIndex(int Index)
 
 void UStorageComponent::UpdateUI()
 {
+	OnInventoryUpdated.Broadcast();
 }
 
-void UStorageComponent::ServerAddBPItem(FInventoryItem Item)
+void UStorageComponent::ServerAddBPItem_Implementation(FInventoryItem Item)
 {
 	AddItem(Item);
+}
+
+void UStorageComponent::OnRep_StorageUpdated()
+{
+	OnInventoryUpdated.Broadcast();
 }
 
 bool UStorageComponent::AddItem(FInventoryItem Item)
@@ -141,7 +157,21 @@ bool UStorageComponent::AddItem(FInventoryItem Item)
 	return false;
 }
 
-void UStorageComponent::ServerRemoveBPItem(FInventoryItem Item)
+bool UStorageComponent::RemoveItem(FInventoryItem Item)
+{
+	int Index = Item.Index;
+	if (Index >= -1)
+	{
+		Items.RemoveAt(Index);
+		AddEmptyAtIndex(Index);
+		SlotsFilled--;
+		UpdateUI();
+		return true;
+	}
+	return false;
+}
+
+void UStorageComponent::ServerRemoveBPItem_Implementation(FInventoryItem Item)
 {
 	RemoveItem(Item);
 }
@@ -174,23 +204,9 @@ bool UStorageComponent::RemoveItemStack(FName UniqueName, int StackSize)
 	return false;
 }
 
-bool UStorageComponent::ServerRemoveBPItemStack(FName UniqueName, int StackSize)
+void UStorageComponent::ServerRemoveBPItemStack_Implementation(FName UniqueName, int StackSize)
 {
-	return RemoveItemStack(UniqueName, StackSize);
-}
-
-bool UStorageComponent::RemoveItem(FInventoryItem Item)
-{
-	int Index = Item.Index;
-	if (Index >= -1)
-	{
-		Items.RemoveAt(Index);
-		AddEmptyAtIndex(Index);
-		SlotsFilled--;
-		UpdateUI();
-		return true;
-	}
-	return false;
+	RemoveItemStack(UniqueName, StackSize);
 }
 
 bool UStorageComponent::HasItem(FName UniqueName, int StackSize)

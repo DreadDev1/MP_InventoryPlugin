@@ -24,14 +24,14 @@ protected:
 public:	
 	UStorageComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	UPROPERTY(EditDefaultsOnly, Replicated, Category = "Inventory")
 	int Capacity;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category = "Inventory")
 	int SlotsFilled;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, ReplicatedUsing=OnRep_StorageUpdated, Category = "Inventory")
 	TArray<FInventoryItem> Items;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
@@ -46,17 +46,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	TArray<FInventoryItem> GetItems() { return Items; }
 
+	UFUNCTION()
+	void OnRep_StorageUpdated();
+	
 	bool AddItem(FInventoryItem Item);
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "Inventory")
 	void ServerAddBPItem(FInventoryItem Item);
 
 	bool RemoveItem(FInventoryItem Item);
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "Inventory")
 	void ServerRemoveBPItem(FInventoryItem Item);
 
 	bool RemoveItemStack(FName UniqueName, int StackSize);
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	bool ServerRemoveBPItemStack(FName UniqueName, int StackSize);
+	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "Inventory")
+	void ServerRemoveBPItemStack(FName UniqueName, int StackSize);
 	
 	bool HasItem(FName UniqueName, int StackSize);
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
