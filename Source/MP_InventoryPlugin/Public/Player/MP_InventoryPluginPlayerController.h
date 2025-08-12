@@ -7,7 +7,9 @@
 #include "Player/InventoryPC.h"
 #include "MP_InventoryPluginPlayerController.generated.h"
 
+class UStorageComponent;
 class UInputMappingContext;
+struct FInventoryItem;
 
 /**
  *  Simple first person Player Controller
@@ -24,6 +26,11 @@ public:
 	/** Constructor */
 	AMP_InventoryPluginPlayerController();
 
+	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "Inventory")
+	void ServerAddBPItem(UStorageComponent* Storage, FInventoryItem Item);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "Inventory")
+	void ServerRemoveBPItem(UStorageComponent* Storage, FInventoryItem Item);
 protected:
 
 	/** Input Mapping Contexts */

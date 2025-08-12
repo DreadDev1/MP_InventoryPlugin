@@ -7,6 +7,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "InputMappingContext.h"
+#include "Components/StorageComponent.h"
 #include "Public/Character/Camera/MP_InventoryPluginCameraManager.h"
 
 
@@ -14,6 +15,18 @@ AMP_InventoryPluginPlayerController::AMP_InventoryPluginPlayerController()
 {
 	// set the player camera manager class
 	PlayerCameraManagerClass = AMP_InventoryPluginCameraManager::StaticClass();
+}
+
+void AMP_InventoryPluginPlayerController::ServerAddBPItem_Implementation(UStorageComponent* Storage,
+	FInventoryItem Item)
+{
+	Storage->AddItem(Item);
+}
+
+void AMP_InventoryPluginPlayerController::ServerRemoveBPItem_Implementation(UStorageComponent* Storage,
+	FInventoryItem Item)
+{
+	Storage->RemoveItem(Item);
 }
 
 void AMP_InventoryPluginPlayerController::SetupInputComponent()
